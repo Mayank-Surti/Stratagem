@@ -1,11 +1,13 @@
 package game.Units;
 
+import game.State.Turn;
+
 import javax.swing.ImageIcon;
 
 public class Archer extends Unit {
 
-    public Archer() {
-        super("Archer", new ImageIcon("sprites/units/blue-archer.png").getImage(), 5, 3, 1);
+    public Archer(Turn team) {
+        super(team, "Archer", new ImageIcon("sprites/units/" + team.name().toLowerCase() + "-archer.png").getImage(), 5, 3, 1);
     }
     
 }

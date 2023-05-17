@@ -1,17 +1,21 @@
 package game.Units;
 
+import game.State.Turn;
+
 import java.awt.Image;
 
 public class Unit {
 	
 	/* Attributes */
+	protected Turn team;
 	protected String name;
 	protected Image sprite;
 	protected int HP, walkRange, attackRange;
 	protected int x, y;
 	
 	/* Constructor */
-	public Unit(String name, Image sprite, int HP, int walkRange, int attackRange) {
+	public Unit(Turn team, String name, Image sprite, int HP, int walkRange, int attackRange) {
+		this.team = team;
 		this.name = name;
 		this.sprite = sprite;
 		this.HP = HP;
@@ -37,6 +41,9 @@ public class Unit {
 	}
 	public Image getSprite() {
 		return sprite;
+	}
+	public int getWalkRange() {
+		return walkRange;
 	}
 
 }

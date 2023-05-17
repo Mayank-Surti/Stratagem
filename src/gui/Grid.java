@@ -9,6 +9,7 @@ import game.Map;
 import game.State;
 import game.Map.Tile;
 import game.State.BattleState;
+import game.State.MainState;
 import game.State.PrepState;
 import game.State.Turn;
 
@@ -21,18 +22,34 @@ public class Grid {
     private Scene scene;
     private Game game;
     private Map map;
+    private boolean[][] spots;
 
     /* Constructor */
     public Grid(Scene scene, Game game) {
     	this.scene = scene;
         this.game = game;
         this.map = game.map;
-        
-        try {
-        	scene = (PreparationScene) scene;
-        } catch (Exception e) {
-        	scene = (BattleScene) scene;
-        }
+        spots = new boolean[Game.GRID_LENGTH][Game.GRID_LENGTH];
+        initSpots();
+    }
+    
+    public void initSpots() {
+    	for (int i = 0; i < spots.length; i++) {
+    		for (int j = 0; j < spots[0].length; j++) {
+    			spots[i][j] = false;
+    		}
+    	}
+    }
+    
+    public void findPath(int x, int y, int range) {
+    	if (x < spots.length && y < spots[0].length && x >= 0 && y >= 0 && range > 0) {
+    		spots[x][y] = true;
+    		range--;
+    		findPath(x - 1, y, range);
+    		findPath(x + 1, y, range);
+    		findPath(x, y + 1, range);
+    		findPath(x, y - 1, range);
+    	}
     }
 
     /* Update and render */
@@ -46,22 +63,19 @@ public class Grid {
             	// draw map
             	spriteX = map.spriteSize * x + (MainFrame.WIDTH - MainFrame.HEIGHT);
             	spriteY = map.spriteSize * y;
-                //g2D.drawImage(map.sprites[x][y], spriteX, spriteY, map.spriteSize, map.spriteSize, null);
+                g2D.drawImage(map.sprites[x][y], spriteX, spriteY, map.spriteSize, map.spriteSize, null);
                 // draw units
-                if (game.blueUnits[x][y] != null) {
+            	if (game.blueUnits[x][y] != null) {
                     g2D.drawImage(game.blueUnits[x][y].getSprite(), spriteX, spriteY, map.spriteSize, map.spriteSize, null);
                 }
-                for (int i = 0; i < 8; i++) {
-                	if (/*game.blueTeam.getUnit(i) != null*/game.getUnit(Turn.BLUE, x, y) != null) {
-                		// g2D.drawImage(game.blueTeam.getUnit(i).getSprite(), 
-                		// 		map.spriteSize * game.blueTeam.getUnit(i).getX() + (MainFrame.WIDTH - MainFrame.HEIGHT), 
-                		// 		map.spriteSize * game.blueTeam.getUnit(i).getY(), 
-                		// 		map.spriteSize, map.spriteSize, null);
-                        
-                	}
+            	if (game.redUnits[x][y] != null) {
+                    g2D.drawImage(game.redUnits[x][y].getSprite(), spriteX, spriteY, map.spriteSize, map.spriteSize, null);
                 }
+            	if (spots[x][y]) {
+            		g2D.fillRect(spriteX, spriteY, map.spriteSize, map.spriteSize);
+            	}
                 // draw selection box
-                if (State.prep == PrepState.GRID || State.battle == BattleState.GRID) {
+                if (State.prep == PrepState.GRID || State.main == MainState.BATTLE) {
                 	if (scene.getSelectionX() == (x + 1) && scene.getSelectionY() == (y + 1)) {
                     	g2D.drawRect(spriteX, spriteY, map.spriteSize, map.spriteSize);
                     }	

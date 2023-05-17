@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 
 import game.State;
 import game.State.PrepState;
+import game.State.Turn;
 import game.Units.*;
 
 public class UnitSelector {
@@ -22,7 +23,7 @@ public class UnitSelector {
     /* Constructor */
     public UnitSelector(PreparationScene parent) {
         prepScene = parent;
-        resetAvailableUnits();
+        resetAvailableUnits(Turn.BLUE);
         initButtons();
     }
 
@@ -35,10 +36,10 @@ public class UnitSelector {
     }
 
     /* Reset base units */
-    public void resetAvailableUnits() {
+    public void resetAvailableUnits(Turn team) {
         availableUnits = new Unit[2];
-        availableUnits[0] = new Knight();
-        availableUnits[1] = new Archer();
+        availableUnits[0] = new Knight(team);
+        availableUnits[1] = new Archer(team);
     }
 
     /* Update and render */

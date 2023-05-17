@@ -1,9 +1,12 @@
 package gui;
 
 import java.awt.*;
+
 import javax.swing.*;
 
+import game.Game;
 import game.State;
+import game.State.MainState;
 import game.State.PrepState;
 import game.State.Turn;
 
@@ -19,7 +22,7 @@ public class PreparationScene extends Scene {
 	public PreparationScene(JPanel mainPane) {
 		super(mainPane);
 		this.mainPane = (MainPanel) mainPane;
-		maxSelection = 2;
+		maxSelection = Game.NUM_UNITS;
 		selectionY = 1;
 		unitSelector = new UnitSelector(this);
 		grid = new Grid(this, this.mainPane.game);
@@ -42,31 +45,43 @@ public class PreparationScene extends Scene {
 		incrementSelectionX();
 	}
 	
+	int counter = 0;
 	@Override
 	protected void enterPressed() {
 		switch (State.prep) {
-			case UNIT: 
+			case UNIT: 	// select which unit to place
 			newUnitIndex = selectionY - 1;
-			System.out.println(newUnitIndex);
 			State.prep = PrepState.GRID; 
-			resetSelection(8);
+			resetSelection(Game.GRID_LENGTH);
 			break;
-			case GRID: 
+			case GRID:	// select where to place chosen unit
 			switch (State.turn) {
-				case BLUE:
-				mainPane.game.addUnit(Turn.BLUE, unitSelector.availableUnits[newUnitIndex], selectionX - 1, selectionY - 1);
-				//System.out.println(mainPane.game.getUnit(Turn.BLUE, selectionX - 1, selectionY - 1).getName());
-				// if (/* mainPane.game.blueTeam.isFull() */ mainPane.game.isTeamFull(Turn.BLUE)) {
-				// 	State.turn = Turn.RED;
-				// } else {
-				// 	State.prep = PrepState.UNIT;
-				// }
-				break;
-				case RED: 
-				break;
-			}
-			resetSelection(2);
-			State.prep = PrepState.UNIT; 
+				case BLUE:	// blue team places unit
+					if (mainPane.game.getUnit(Turn.BLUE, selectionX - 1, selectionY - 1) == null) {
+						unitSelector.resetAvailableUnits(Turn.BLUE);
+						mainPane.game.addUnit(Turn.BLUE, unitSelector.availableUnits[newUnitIndex], selectionX - 1, selectionY - 1);
+						counter++;
+						if (counter >= Game.NUM_UNITS) {
+							State.turn = Turn.RED;
+							counter = 0;
+						}
+						State.prep = PrepState.UNIT;
+					}
+					break;
+				case RED: 	// red team places unit
+					if (mainPane.game.getUnit(Turn.RED, selectionX - 1, selectionY - 1) == null) {
+						unitSelector.resetAvailableUnits(Turn.RED);
+						mainPane.game.addUnit(Turn.RED, unitSelector.availableUnits[newUnitIndex], selectionX - 1, selectionY - 1);
+						counter++;
+						if (counter >= Game.NUM_UNITS) {
+							mainPane.initBattle();
+							counter = 0;
+						}
+						State.prep = PrepState.UNIT;
+					}
+					break;
+				}
+			resetSelection(unitSelector.availableUnits.length);
 			break;
 		}
 	}
@@ -86,7 +101,5 @@ public class PreparationScene extends Scene {
 			case GRID: break;
 		}
 	}
-	
-	
 
 }

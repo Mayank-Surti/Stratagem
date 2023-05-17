@@ -36,7 +36,7 @@ public class MainPanel extends JPanel implements Runnable {
 		battleScene = new BattleScene(this);
 		State.main = MainState.BATTLE;
 		State.turn = Turn.BLUE;
-		State.battle = BattleState.UNIT;
+		State.battle = BattleState.GRID;
 		prepScene = null;
 	}
 	
