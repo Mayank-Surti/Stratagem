@@ -11,7 +11,6 @@ public class Unit {
 	protected String name;
 	protected Image sprite;
 	protected int HP, walkRange, attackRange;
-	protected int x, y;
 	
 	/* Constructor */
 	public Unit(Turn team, String name, Image sprite, int HP, int walkRange, int attackRange) {
@@ -22,20 +21,16 @@ public class Unit {
 		this.walkRange = walkRange;
 		this.attackRange = attackRange;
 	}
+	public Unit(Unit unit) {
+		this.team = unit.team;
+		this.name = unit.name;
+		this.sprite = unit.sprite;
+		this.HP = unit.HP;
+		this.walkRange = unit.walkRange;
+		this.attackRange = unit.attackRange;
+	}
 	
 	/* Getters */
-	public int getX() {
-		return x;
-	}
-	public void setX(int x) {
-		this.x = x;
-	}
-	public int getY() {
-		return y;
-	}
-	public void setY(int y) {
-		this.y = y;
-	}
 	public String getName() {
 		return name;
 	}
@@ -44,6 +39,14 @@ public class Unit {
 	}
 	public int getWalkRange() {
 		return walkRange;
+	}
+	public int getAttackRange() {
+		return attackRange;
+	}
+
+	/* Attack other unit */
+	public void attackUnit(Unit unit) {
+		unit.HP--;
 	}
 
 }

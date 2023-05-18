@@ -1,5 +1,7 @@
 package gui;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Graphics2D;
 
 import javax.swing.ImageIcon;
@@ -22,7 +24,7 @@ public class Grid {
     private Scene scene;
     private Game game;
     private Map map;
-    private boolean[][] spots;
+    public boolean[][] spots;
 
     /* Constructor */
     public Grid(Scene scene, Game game) {
@@ -30,10 +32,10 @@ public class Grid {
         this.game = game;
         this.map = game.map;
         spots = new boolean[Game.GRID_LENGTH][Game.GRID_LENGTH];
-        initSpots();
+        resetSpots();
     }
     
-    public void initSpots() {
+    public void resetSpots() {
     	for (int i = 0; i < spots.length; i++) {
     		for (int j = 0; j < spots[0].length; j++) {
     			spots[i][j] = false;
@@ -42,7 +44,7 @@ public class Grid {
     }
     
     public void findPath(int x, int y, int range) {
-    	if (x < spots.length && y < spots[0].length && x >= 0 && y >= 0 && range > 0) {
+    	if (x < spots.length && y < spots[0].length && x >= 0 && y >= 0 && range >= 0) {
     		spots[x][y] = true;
     		range--;
     		findPath(x - 1, y, range);
@@ -58,6 +60,7 @@ public class Grid {
     }
     public void draw(Graphics2D g2D) {
     	int spriteX, spriteY;
+        g2D.setStroke(new BasicStroke(5));
         for (int x = 0; x < map.sprites.length; x++) {
             for (int y = 0; y < map.sprites[0].length; y++) {
             	// draw map
@@ -71,12 +74,15 @@ public class Grid {
             	if (game.redUnits[x][y] != null) {
                     g2D.drawImage(game.redUnits[x][y].getSprite(), spriteX, spriteY, map.spriteSize, map.spriteSize, null);
                 }
-            	if (spots[x][y]) {
-            		g2D.fillRect(spriteX, spriteY, map.spriteSize, map.spriteSize);
+                // draw walk/attack range
+            	if ((State.battle == BattleState.MOVE || State.battle == BattleState.ATTACK) && spots[x][y]) {
+                    g2D.setColor(Color.BLUE);
+            		g2D.drawRect(spriteX, spriteY, map.spriteSize, map.spriteSize);
             	}
                 // draw selection box
                 if (State.prep == PrepState.GRID || State.main == MainState.BATTLE) {
                 	if (scene.getSelectionX() == (x + 1) && scene.getSelectionY() == (y + 1)) {
+                        g2D.setColor(Color.RED);
                     	g2D.drawRect(spriteX, spriteY, map.spriteSize, map.spriteSize);
                     }	
                 }

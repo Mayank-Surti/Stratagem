@@ -7,7 +7,7 @@ import javax.swing.ImageIcon;
 public class Archer extends Unit {
 
     public Archer(Turn team) {
-        super(team, "Archer", new ImageIcon("sprites/units/" + team.name().toLowerCase() + "-archer.png").getImage(), 5, 3, 1);
+        super(team, "Archer", new ImageIcon("sprites/units/" + team.name().toLowerCase() + "-archer.png").getImage(), 5, 3, 2);
     }
     
 }

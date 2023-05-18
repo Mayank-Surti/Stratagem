@@ -7,7 +7,7 @@ public class Game {
 
 	/* Attributes */
 	public static final int GRID_LENGTH = 10;
-	public static final int NUM_UNITS = 2;
+	public static final int NUM_UNITS = 1;
 	public Unit[][] blueUnits, redUnits;
 	public Map map;
 
@@ -40,11 +40,17 @@ public class Game {
 	}
 	
 	public void moveUnit(Turn team, int oldX, int oldY, int newX, int newY) {
+		Unit newUnit;
 		switch (team) {
 		case BLUE:
-			blueUnits[newX][newY] = blueUnits[oldX][oldY];
+			newUnit = new Unit(blueUnits[oldX][oldY]);
+			blueUnits[oldX][oldY] = null;
+			blueUnits[newX][newY] = newUnit;
 			break;
 		case RED:
+			newUnit = new Unit(redUnits[oldX][oldY]);
+			redUnits[oldX][oldY] = null;
+			redUnits[newX][newY] = newUnit;
 			break;
 		}
 	}

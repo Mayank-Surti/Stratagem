@@ -12,7 +12,7 @@ public abstract class State {
 		UNIT, GRID;
 	}
 	public enum BattleState {
-		GRID, ACTION;
+		GRID, MOVE, ATTACK;
 	}
 	
 	/* Attributes */
