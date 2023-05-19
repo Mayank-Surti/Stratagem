@@ -12,10 +12,11 @@ public class MainFrame extends JFrame {
 
     /* Constructor */
     public MainFrame() {
+    	this.setTitle("Game");
         this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
         this.setResizable(false);
         this.setLayout(null);
-        //this.setUndecorated(true);
+        this.setUndecorated(true);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         MainPanel mainPane = new MainPanel();

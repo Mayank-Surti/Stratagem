@@ -112,7 +112,7 @@ public class BattleScene extends Scene {
 					break;
 				}
 			if (mainPane.game.isTeamDead(Turn.BLUE) || mainPane.game.isTeamDead(Turn.RED)) {
-				
+				State.battle = BattleState.END;
 			} else {
 				State.battle = BattleState.GRID;
 			}
@@ -120,7 +120,7 @@ public class BattleScene extends Scene {
 			}
 			break;
 		case END:
-			System.out.println("done");
+			mainPane.initPrep();
 			break;
 		}
 	}

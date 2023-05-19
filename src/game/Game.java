@@ -7,7 +7,7 @@ public class Game {
 
 	/* Attributes */
 	public static final int GRID_LENGTH = 10;
-	public static final int NUM_UNITS = 1;
+	public static final int NUM_UNITS = 1, MAX_PLACE_SPACE = 3;
 	public Unit[][] blueUnits, redUnits;
 	public Map map;
 

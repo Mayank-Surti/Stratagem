@@ -57,7 +57,7 @@ public class PreparationScene extends Scene {
 			case GRID:	// select where to place chosen unit
 			switch (State.turn) {
 				case BLUE:	// blue team places unit
-					if (mainPane.game.getUnit(Turn.BLUE, selectionX - 1, selectionY - 1) == null) {
+					if (mainPane.game.getUnit(Turn.BLUE, selectionX - 1, selectionY - 1) == null && selectionY <= Game.MAX_PLACE_SPACE) {
 						unitSelector.resetAvailableUnits(Turn.BLUE);
 						mainPane.game.addUnit(Turn.BLUE, unitSelector.availableUnits[newUnitIndex], selectionX - 1, selectionY - 1);
 						counter++;
@@ -66,10 +66,11 @@ public class PreparationScene extends Scene {
 							counter = 0;
 						}
 						State.prep = PrepState.UNIT;
+						resetSelection(unitSelector.availableUnits.length);
 					}
 					break;
 				case RED: 	// red team places unit
-					if (mainPane.game.getUnit(Turn.RED, selectionX - 1, selectionY - 1) == null) {
+					if (mainPane.game.getUnit(Turn.RED, selectionX - 1, selectionY - 1) == null && selectionY > Game.GRID_LENGTH - Game.MAX_PLACE_SPACE) {
 						unitSelector.resetAvailableUnits(Turn.RED);
 						mainPane.game.addUnit(Turn.RED, unitSelector.availableUnits[newUnitIndex], selectionX - 1, selectionY - 1);
 						counter++;
@@ -78,10 +79,10 @@ public class PreparationScene extends Scene {
 							counter = 0;
 						}
 						State.prep = PrepState.UNIT;
+						resetSelection(unitSelector.availableUnits.length);
 					}
 					break;
 				}
-			resetSelection(unitSelector.availableUnits.length);
 			break;
 		}
 	}

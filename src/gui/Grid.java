@@ -18,8 +18,13 @@ import game.State.Turn;
 public class Grid {
 
     /* Attributes */
-    private final static int WIDTH = MainFrame.HEIGHT;
-    private final static int HEIGHT = MainFrame.HEIGHT;
+    private final int WIDTH = MainFrame.HEIGHT;
+    private final int HEIGHT = MainFrame.HEIGHT;
+    private final int SPRITE_OFFSET = 5, RECT_ARC = 5, RECT_STROKE = 5, RECT_OFFSET = 0;
+    private final int TRANSPARENCY = 127;
+    private final Color RECT_COLOR = new Color(0, 0, 0, TRANSPARENCY);
+    private final Color BLUE = new Color(41, 174, 252, TRANSPARENCY);
+    private final Color RED = new Color(230, 30, 28, TRANSPARENCY);
 
     private Scene scene;
     private Game game;
@@ -59,31 +64,51 @@ public class Grid {
 
     }
     public void draw(Graphics2D g2D) {
-    	int spriteX, spriteY;
+    	int spriteX, spriteY, spriteSize, rectX, rectY, rectSize;
+    	g2D.setColor(RECT_COLOR);
         g2D.setStroke(new BasicStroke(5));
         for (int x = 0; x < map.sprites.length; x++) {
             for (int y = 0; y < map.sprites[0].length; y++) {
-            	// draw map
+            	// initialize location and size variables
             	spriteX = map.spriteSize * x + (MainFrame.WIDTH - MainFrame.HEIGHT);
             	spriteY = map.spriteSize * y;
-                g2D.drawImage(map.sprites[x][y], spriteX, spriteY, map.spriteSize, map.spriteSize, null);
+            	spriteSize = map.spriteSize;
+            	rectX = spriteX + RECT_OFFSET;
+            	rectY = spriteY + RECT_OFFSET;
+            	rectSize = map.spriteSize - RECT_OFFSET * 2;
+            	// draw map
+                //g2D.drawImage(map.sprites[x][y], spriteX, spriteY, spriteSize, spriteSize, null);
                 // draw units
+                spriteX += SPRITE_OFFSET;
+                spriteY += SPRITE_OFFSET;
+                spriteSize -= SPRITE_OFFSET * 2;
             	if (game.blueUnits[x][y] != null) {
-                    g2D.drawImage(game.blueUnits[x][y].getSprite(), spriteX, spriteY, map.spriteSize, map.spriteSize, null);
+                    g2D.drawImage(game.blueUnits[x][y].getSprite(), spriteX, spriteY, spriteSize, spriteSize, null);
                 }
             	if (game.redUnits[x][y] != null) {
-                    g2D.drawImage(game.redUnits[x][y].getSprite(), spriteX, spriteY, map.spriteSize, map.spriteSize, null);
+                    g2D.drawImage(game.redUnits[x][y].getSprite(), spriteX, spriteY, spriteSize, spriteSize, null);
                 }
+            	// draw available place spots
+            	if (State.main == MainState.PREP && State.prep == PrepState.GRID) {
+            		if (State.turn == Turn.BLUE && y < Game.MAX_PLACE_SPACE) {
+            			g2D.setColor(BLUE);
+            			g2D.fillRoundRect(rectX, rectY, rectSize, rectSize, RECT_ARC, RECT_ARC);
+            		} else if (State.turn == Turn.RED && y >= Game.GRID_LENGTH - Game.MAX_PLACE_SPACE) {
+            			g2D.setColor(RED);
+            			g2D.fillRoundRect(rectX, rectY, rectSize, rectSize, RECT_ARC, RECT_ARC);
+            		}
+            	}
                 // draw walk/attack range
+            	g2D.setColor(RECT_COLOR);
             	if ((State.battle == BattleState.MOVE || State.battle == BattleState.ATTACK) && spots[x][y]) {
-                    g2D.setColor(Color.BLUE);
-            		g2D.drawRect(spriteX, spriteY, map.spriteSize, map.spriteSize);
+                    //g2D.setColor(Color.BLUE);
+            		g2D.fillRoundRect(rectX, rectY, rectSize, rectSize, RECT_ARC, RECT_ARC);
             	}
                 // draw selection box
                 if (State.prep == PrepState.GRID || State.main == MainState.BATTLE) {
                 	if (scene.getSelectionX() == (x + 1) && scene.getSelectionY() == (y + 1)) {
-                        g2D.setColor(Color.RED);
-                    	g2D.drawRect(spriteX, spriteY, map.spriteSize, map.spriteSize);
+                        //g2D.setColor(Color.RED);
+                		g2D.drawRoundRect(rectX, rectY , rectSize, rectSize, RECT_ARC, RECT_ARC);
                     }	
                 }
             }
