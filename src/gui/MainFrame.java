@@ -14,7 +14,7 @@ import game.Map;
 public class MainFrame extends JFrame {
 
     /* Attributes */
-    public final static String GAME_NAME = "Game Name";
+    public final static String GAME_NAME = "Stratagem";
     public final static int WIDTH = 1280;
     public final static int HEIGHT = Game.GRID_LENGTH * Map.SPRITE_SIZE;
     public final static int FPS = 60;
