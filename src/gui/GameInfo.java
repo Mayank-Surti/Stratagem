@@ -92,7 +92,7 @@ public class GameInfo {
                             g2D.drawString("BLUE team has won!", OFFSET, OFFSET * 2);
                         }
                         g2D.setFont(MainPanel.mainFont.deriveFont(MainPanel.NORMAL_SIZE));
-                        g2D.drawString("Press enter to start a new game.", OFFSET, HEIGHT - OFFSET / 2);
+                        g2D.drawString("Press enter to return to main menu.", OFFSET, HEIGHT - OFFSET / 2);
                         break;
                 }
                 if (State.battle != BattleState.END) {
