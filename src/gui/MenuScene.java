@@ -138,16 +138,16 @@ public class MenuScene extends Scene {
                 g2D.drawString(
                         "There are two teams; BLUE and RED. The goal for each team is to wipe out all units in the opponent's team.",
                         NEW_LINE_HEIGHT, NEW_LINE_HEIGHT * 3);
-                g2D.drawString("There are two phases; the preparation phase and the battle phase.", NEW_LINE_HEIGHT,
+                g2D.drawString("There are two phases; the Preparation phase and the Battle phase.", NEW_LINE_HEIGHT,
                         NEW_LINE_HEIGHT * 4);
                 MainPanel.drawFormattedString(
-                        "During the preparation phase, each team takes turns selecting which units to have on their team and where they should be \nplaced on the grid. Each unit is distinct and has varying properties (different HP, damage, movement/attack range, etc). ",
+                        "During the Preparation phase, each team takes turns selecting which units to have on their team and where they should be \nplaced on the grid. Each unit is distinct and has varying properties (different HP, damage, movement/attack range, etc). ",
                         NEW_LINE_HEIGHT, NEW_LINE_HEIGHT * 5, TXT_OFFSET, g2D);
                 MainPanel.drawFormattedString(
                         "There are two types of units; Good units and Great units. Great units are better versions of their respective Good units. \nEach team must start off with 3 Good units and 2 Great units. You cannot select two of the same unit for your team.",
                         NEW_LINE_HEIGHT, NEW_LINE_HEIGHT * 6 + TXT_OFFSET, TXT_OFFSET, g2D);
                 MainPanel.drawFormattedString(
-                        "During the battle phase, each team takes turns moving their units on the grid and performing attacks on the enemy's team.",
+                        "During the Battle phase, each team takes turns moving their units on the grid and performing attacks on the enemy's team.",
                         NEW_LINE_HEIGHT, NEW_LINE_HEIGHT * 7 + TXT_OFFSET * 2, TXT_OFFSET, g2D);
                 MainPanel.drawFormattedString(
                         "Good units can be \"leveled-up\" to a Great unit. This happens when the Good unit successfully attacks an enemy unit 2 times \nduring the game. When a unit is \"leveled-up,\" its properties become better and its HP is reset to the max value.",
